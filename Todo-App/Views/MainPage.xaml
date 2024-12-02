@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Todo_App.ViewModels"
+             x:Class="Todo_App.MainPage">
+
+  <ScrollView>
+    <VerticalStackLayout Padding="30,0,30,0">
+
+
+      <!-- Weather Section -->
+      <ContentView>
+        <VerticalStackLayout>
+          <Grid ColumnDefinitions="*,*,*"
+                RowDefinitions="Auto,Auto,Auto,Auto"
+                Padding="5"
+                RowSpacing="20"
+                ColumnSpacing="25"
+                HorizontalOptions="Center">
+
+            <!-- Current Row -->
+            <Label Grid.Row="1"
+                   Grid.Column="0"
+                   FontSize="Medium"
+                   FontAttributes="Bold"
+                   Text="Current" />
+            <Label Grid.Row="1"
+                   Grid.Column="1"
+                   FontSize="Medium"
+                   FontAttributes="Bold"
+                   Text="{Binding Weather.currentTemperatureProp}" />
+            <Label Grid.Row="1"
+                   Grid.Column="2"
+                   FontSize="Medium"
+                   FontAttributes="Bold"
+                   Text="{Binding Weather.currentWindSpeedProp}" />
+
+            <!-- Wind Speed Row -->
+            <Label Grid.Row="2"
+                   FontAttributes="Bold"
+                   Grid.Column="0"
+                   FontSize="Medium"
+                   Text="Max" />
+            <Label Grid.Row="2"
+                   FontSize="Medium"
+                   Grid.Column="1"
+                   FontAttributes="Bold"
+                   Text="{Binding Weather.lowestTempProp}" />
+            <Label Grid.Row="2"
+                   Grid.Column="2"
+                   FontSize="Medium"
+                   FontAttributes="Bold"
+                   TextColor="{Binding Weather.maxWindTextColor}"
+                   Text="{Binding Weather.maxWindProp}" />
+          </Grid>
+
+          <Button Text="Refresh"
+                  Command="{Binding Weather.UpdateWeather}"
+                  Margin="0,10,0,0" />
+        </VerticalStackLayout>
+      </ContentView>
+
+      <!-- Todo Section -->
+      <ContentView Margin="20">
+
+        <VerticalStackLayout>
+
+
+          <Label Text="Your To-Do Lists"
+                 FontSize="Medium"
+                 HorizontalOptions="Center" />
+
+          <ListView ItemsSource="{Binding Todo.ListCollection}"
+                    SelectedItem="{Binding Todo.SelectedTodoList}">
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <TextCell Text="{Binding Name}"/>
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
+
+          <Entry Placeholder="Create new list"
+                 Text="{Binding Todo.NewListProperty}" />
+
+          <Button Text="Create"
+                  Command="{Binding Todo.AddListCommand}" />
+
+          <ListView ItemsSource="{Binding Todo.SelectedTodoTasks}">
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <TextCell Text="{Binding TaskDescription}"
+                          Detail="{Binding IsCompleted, StringFormat='Completed: {0}'}" />
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
+
+          <Entry Placeholder="Enter a new task"
+                 Text="{Binding Todo.NewTaskProperty}" />
+          <Button Text="Add"
+                  Command="{Binding Todo.AddTaskCommand}" />
+          <Button Text="Delete List"
+                  Margin="0,15,0,0"
+                  Command="{Binding Todo.DeleteListCommand}"/>
+
+
+
+        </VerticalStackLayout>
+      </ContentView>
+
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>
